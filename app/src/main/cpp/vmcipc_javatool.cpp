@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include <jni.h>
 #include <android/log.h>
+#include "common.h"
 #include "vmcipc_javatool.h"
 
 
@@ -60,7 +61,7 @@ void InitProxyObj(jobject objIpcProxy)
 
 void InitJavaMethods()
 {
-    //ÕÒµ½javaÖÐµÄÀà
+    //ï¿½Òµï¿½javaï¿½Ðµï¿½ï¿½ï¿½
     if(g_methodShowStatus)
     {
     	goto end;

@@ -16,11 +16,11 @@ enum  error_id{
 		
 };
 
-
+#if 0	// by tolkien
 #define INIT_ERROR "uninit or init error!"
 #define DECODE_ERROR "decode_error!"
 #define START_DEC_THREAD_ERROR "start decoder thread error!"
-
+#endif
 
 typedef void  (*preview_callback)(int state, char * error );
 
@@ -86,7 +86,7 @@ struct input_buffer{
 typedef DataQueue<input_buffer *>  other_input_buffer_queue;
 
 
-
+#if 0	// by tolkien
 static char * erro_info[]={
   NULL, 				// 0,
   INIT_ERROR,			// 1
@@ -94,7 +94,7 @@ static char * erro_info[]={
   START_DEC_THREAD_ERROR   // 3
   
 };
-
+#endif
 int64_t  get_sys_tickcount( void );
 
 //int get_outbuffer_for_photo(output_buffer * pbuffer);
@@ -123,15 +123,15 @@ int  init_decoder_hander(void * framedata, short codec_capbility, \
 int start_decoder_hander(void);
 int close_decoder_hander(void);
 
-//³õÊ¼»¯ÏµÍ³½âÂëÆ÷
+//ï¿½ï¿½Ê¼ï¿½ï¿½ÏµÍ³ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 struct ANativeWindow;
 int VmcInitSysDecoder(ANativeWindow *window);
 
 void VmcCloseSysDecoder();
 
 
-//ÉèÖÃ½âÂë²ßÂÔ
-#define DECODE_AUTO		0 //Ä¬ÈÏ²ÉÓÃÏµÍ³½âÂëÆ÷£¬Èç¹û²»¿ÉÓÃÔò²ÉÓÃÈí¼þ½âÂëÆ÷
+//ï¿½ï¿½ï¿½Ã½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+#define DECODE_AUTO		0 //Ä¬ï¿½Ï²ï¿½ï¿½ï¿½ÏµÍ³ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 #define DECODE_SOFTWARE	1
 #define DECODE_SYS		2
 void VmcSetDecodeStrategy(int sta);

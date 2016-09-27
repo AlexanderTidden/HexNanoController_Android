@@ -9,6 +9,7 @@
 #include <android/log.h>
 #include <stdio.h>
 #include <string.h>
+#include <unistd.h>
 #include "IPCConfig.h"
 #include <sys/types.h>
 #include <sys/stat.h>

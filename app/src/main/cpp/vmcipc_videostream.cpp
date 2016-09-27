@@ -1,8 +1,10 @@
 
 #include <string>
+#include <unistd.h>
 #include <android/native_window.h> // requires ndk r5 or newer
 #include <android/native_window_jni.h> // requires ndk r5 or newer
 
+#include "common.h"
 #include "VCmdDefines.h"
 #include "vmcipc_videostream.h"
 #include "vmcipc_cmd.h"
@@ -48,13 +50,13 @@ static FPSCalc g_fcNet(0.9);
 
 
 
-//Í³¼ÆÍøÂçÑÓ³Ù
+//Í³ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ó³ï¿½
 static uint64_t g_ndTimeLast = 0;
 static uint64_t g_ndFrameTimeLast = 0;
 static uint64_t g_ndTimeUpdate = 0;
-//20Ãë×î´óÍøÂçÑÓ³Ù
+//20ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ó³ï¿½
 int g_ndMax = 0;
-//20Ãë×î´óÖ¡ÑÓ³Ù
+//20ï¿½ï¿½ï¿½ï¿½ï¿½Ö¡ï¿½Ó³ï¿½
 int g_ndFrameMax = 0;
 
 
@@ -76,7 +78,7 @@ static void  preview_cb (int state, char * error )
 
 
 /**
-*@brief ½âÂëÆ÷»Øµ÷º¯Êý
+*@brief ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Øµï¿½ï¿½ï¿½ï¿½ï¿½
 *@return void
 */
 
@@ -125,7 +127,7 @@ static void updateframe_cb (void *ext)
 		if(cur - g_timeDec0 > 4500 && (g_fcNet.FPS() - g_fcDec.FPS()) > 0.7 && g_fcDec.FPS() >= 1.00 && get_cur_buffer_num() > 3
 			&& !g_bSendFPSAjust && cmd::GetCmdClient() && g_fcDec.FPS() <= g_fpsDecLast)
 		{
-			//Ïò·þÎñÆ÷·¢ËÍµ÷ÕûÖ¡ÂÊµÄÃüÁî
+			//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Íµï¿½ï¿½ï¿½Ö¡ï¿½Êµï¿½ï¿½ï¿½ï¿½ï¿½
 			double fps = g_fcDec.FPS() - 1.5;
 			if(fps < 1.0)
 			{
@@ -198,7 +200,7 @@ static void H264DataCallback(void *p,int len,unsigned int timeMs)
 	}
 	{
 		uint64_t cur = get_sys_tickcount();
-		//Í³¼ÆÍøÂçÑÓ³Ù£¬Ã¿20Ãë
+		//Í³ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ó³Ù£ï¿½Ã¿20ï¿½ï¿½
 		if(!g_ndTimeLast)
 		{
 			g_ndTimeLast = cur;
@@ -307,7 +309,7 @@ static void H264DataCallback(void *p,int len,unsigned int timeMs)
 		if(g_frameRecved > 60 && (g_fcNet.FPS() - g_fcDec.FPS()) > 0.7 && g_fcDec.FPS() >= 1.00 && get_cur_buffer_num() > 3
 			&& !g_bSendFPSAjust && g_client)
 		{
-			//Ïò·þÎñÆ÷·¢ËÍµ÷ÕûÖ¡ÂÊµÄÃüÁî
+			//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Íµï¿½ï¿½ï¿½Ö¡ï¿½Êµï¿½ï¿½ï¿½ï¿½ï¿½
 			rapidjson::Document doc;
 			char buf[50];
 			doc.SetObject();
@@ -440,8 +442,8 @@ void StartRTMPThread()
 }
 
 /**
-*@brief µÃµ½Éè±¸¶ËÊÓÆµÁ÷µÄ¿í¶ÈºÍ¸ß¶È
-*@return Èç¹ûÕý³£»ñÈ¡£¬·µ»Ø0Öµ£¬·ñÔò·µ»Ø·Ç0Öµ
+*@brief ï¿½Ãµï¿½ï¿½è±¸ï¿½ï¿½ï¿½ï¿½Æµï¿½ï¿½ï¿½Ä¿ï¿½ÈºÍ¸ß¶ï¿½
+*@return ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½È¡ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½0Öµï¿½ï¿½ï¿½ï¿½ï¿½ò·µ»Ø·ï¿½0Öµ
 */
 
 int GetVideoMetrics(int *pWidth,int *pHeight)
@@ -455,8 +457,8 @@ int GetVideoMetrics(int *pWidth,int *pHeight)
 	return 1;
 }
 /**
-*@brief ÅÐ¶ÏÊÓÆµÁ÷Êý¾ÝÊÇ·ñ×¼±¸ºÃ²¢¿ÉÒÔÓÃÓÚÏÔÊ¾
-*@return ·µ»Øtrue±íÃ÷ÒÑ¾­×¼±¸ºÃ
+*@brief ï¿½Ð¶ï¿½ï¿½ï¿½Æµï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ç·ï¿½×¼ï¿½ï¿½ï¿½Ã²ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ê¾
+*@return ï¿½ï¿½ï¿½ï¿½trueï¿½ï¿½ï¿½ï¿½ï¿½Ñ¾ï¿½×¼ï¿½ï¿½ï¿½ï¿½
 */
 bool IsVideoInited()
 {
@@ -471,7 +473,7 @@ bool IsVideoInited()
 }
 
 /**
-*@brief Æô¶¯Èí¼þ½âÂëÆ÷
+*@brief ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 *
 *
 */

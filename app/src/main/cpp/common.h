@@ -16,11 +16,21 @@
 #define LOGW(TAG, ...) ((void)__android_log_print(ANDROID_LOG_WARN, TAG, __VA_ARGS__))
 #define LOGE(TAG, ...) ((void)__android_log_print(ANDROID_LOG_ERROR, TAG, __VA_ARGS__))
 #else
+#ifndef LOGD
 #define LOGD(...) ;
+#endif
+#ifndef LOGV
 #define LOGV(...) ;
+#endif
+#ifndef LOGI
 #define LOGI(...) ;
+#endif
+#ifndef LOGW
 #define LOGW(...) ;
+#endif
+#ifndef LOGE
 #define LOGE(...) ;
+#endif
 #endif
 
 #define VIDEO_WIDTH   320

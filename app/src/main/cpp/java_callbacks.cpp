@@ -6,12 +6,12 @@
  */
 #include <jni.h>
 #include "java_callbacks.h"
-#include <common.h>
-
 #define LOGI(...) ((void)__android_log_print(ANDROID_LOG_INFO, "native-api", __VA_ARGS__))
 #define LOGW(...) ((void)__android_log_print(ANDROID_LOG_WARN, "native-api", __VA_ARGS__))
-
+#include "common.h"
+#ifndef NULL
 #define NULL "0"
+#endif
 
 #ifdef __cplusplus
 extern "C" {

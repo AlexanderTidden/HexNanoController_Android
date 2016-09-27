@@ -47,7 +47,7 @@ void createStream(int width,int height){
 	char path[256];
 	time_t rawtime;
 	time ( &rawtime );
-	sprintf(path,"/sdcard/yuv/data_%d_%d_%d",rawtime,width,height);
+	sprintf(path,"/sdcard/yuv/data_%ld_%d_%d",rawtime,width,height);
 	strcat(path,".yuv");
 
 	LOGI ( "the path is: %s", path );

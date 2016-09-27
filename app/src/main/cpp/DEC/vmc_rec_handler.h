@@ -16,10 +16,11 @@ enum  rec_error_id{
 };
 
 
+#if 0	// by tolkien
 #define INIT_REC_ERROR "uninit or init error!"
 #define REC_ERROR "rec_error!"
 #define START_REC_THREAD_ERROR "start rec thread error!"
-
+#endif
 
 typedef void  (*rec_callback)(int state, char * error );
 
@@ -27,6 +28,7 @@ typedef void  (*rec_callback)(int state, char * error );
 
 
 
+#if 0	// by tolkien
 static char * rec_erro_info[]={
   NULL, 				// 0,
   INIT_REC_ERROR,			// 1
@@ -34,7 +36,7 @@ static char * rec_erro_info[]={
   START_REC_THREAD_ERROR   // 3
   
 };
-
+#endif
 
 
 

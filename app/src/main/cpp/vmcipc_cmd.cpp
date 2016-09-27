@@ -7,10 +7,11 @@
 #include "vmcipc_javatool.h"
 #include "vmcipc_videostream.h"
 #include "vmcipc_debug.h"
+#include "common.h"
 
 namespace cmd
 {
-	//´´½¨¿Í»§¶Ë
+	//ï¿½ï¿½ï¿½ï¿½ï¿½Í»ï¿½ï¿½ï¿½
 static vmc::INetBase *g_client = NULL;
 void CommandConnectionStart(int ,void *);
 static pthread_mutex_t g_mutex_client = PTHREAD_MUTEX_INITIALIZER;
@@ -235,7 +236,7 @@ static pthread_mutex_t g_mutex_ctl_data = PTHREAD_MUTEX_INITIALIZER;
 
 void CommandConnectionStart();
 
-//¼à¿ØÍ¬·þÎñÆ÷µÄÁ¬½Ó×´¿ö
+//ï¿½ï¿½ï¿½Í¬ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½×´ï¿½ï¿½
 class ClientListener : public vmc::INetListener
 {
 public:
@@ -289,7 +290,7 @@ static std::map<std::string,std::string> g_serverStatus;
 static bool g_bCommandConnStarted = false;
 static int ReadRecordState(rapidjson::Document *d);
 
-//¶ÁÈ¡·þÎñÆ÷ÍÆËÍµÄµçÁ¿
+//ï¿½ï¿½È¡ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ÍµÄµï¿½ï¿½ï¿½
 static int ReadDataBattery(rapidjson::Document *d)
 {
 	pthread_mutex_lock(&g_mutex_ctl_data);
@@ -323,7 +324,7 @@ static int ReadDeviceDebugInfo(rapidjson::Document *d)
 }
 
 
-//¶ÁÈ¡·þÎñÆ÷ÍÆËÍµÄÎ»ÖÃÐÅÏ¢
+//ï¿½ï¿½È¡ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Íµï¿½Î»ï¿½ï¿½ï¿½ï¿½Ï¢
 static int ReadDataPos(rapidjson::Document *d)
 {
 	printf("%s x:%d y:%d\n",__FUNCTION__,(*d)["x"].GetInt(),(*d)["y"].GetInt());
@@ -355,7 +356,7 @@ int ReadRecordState(rapidjson::Document *d)
 	pthread_mutex_lock(&g_mutex_ctl_data);
 	if(d->HasMember("remote_record_state"))
 	{
-		//  ×´Ì¬Öµ²ÎÕÕvmcipc_defines.h´ÓSTATE_RECORD_STOPEDµ½ERR_RECORD
+		//  ×´Ì¬Öµï¿½ï¿½ï¿½ï¿½vmcipc_defines.hï¿½ï¿½STATE_RECORD_STOPEDï¿½ï¿½ERR_RECORD
 		g_serverStatus["remote_record_state"] = (*d)["remote_record_state"].GetString();
 	}
 	pthread_mutex_unlock(&g_mutex_ctl_data);
@@ -434,7 +435,7 @@ void CommandConnectionInit()
 	//g_serverStatus.SetObject();
 	vmc::CreateThreadPool(GetCmdProcessPoolId(),2);
 	
-	//×¢²áÊý¾Ý´¦Àíº¯Êý	
+	//×¢ï¿½ï¿½ï¿½ï¿½ï¿½Ý´ï¿½ï¿½ï¿½ï¿½ï¿½	
 	vmc::RegisterDataCallback(CMD_REPORT_BATTERY,GetCmdProcessPoolId(),ReadDataBattery);
 	vmc::RegisterDataCallback(CMD_REPORT_POSITION,GetCmdProcessPoolId(),ReadDataPos);
 	vmc::RegisterDataCallback(CMD_REPORT_DEVICE_INFO,GetCmdProcessPoolId(),ReadDeviceInfo);
