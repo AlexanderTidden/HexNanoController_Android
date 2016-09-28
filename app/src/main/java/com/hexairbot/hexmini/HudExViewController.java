@@ -50,7 +50,6 @@ import com.hexairbot.hexmini.R;
 import com.hexairbot.hexmini.HexMiniApplication.AppStage;
 import com.hexairbot.hexmini.ble.BleConnectinManager;
 import com.hexairbot.hexmini.gestures.EnhancedGestureDetector;
-import com.hexairbot.hexmini.ipc.view.VideoSettingView;
 import com.hexairbot.hexmini.modal.ApplicationSettings;
 import com.hexairbot.hexmini.modal.Channel;
 import com.hexairbot.hexmini.modal.OSDCommon;
@@ -1021,7 +1020,6 @@ public class HudExViewController extends ViewController
 		decodeFilter.addAction(IpcProxy.ACTION_CONNECT_QUALITY_CHANGED);
 		decodeFilter.addAction(ACTION_RESTART_PREVIEW);
 		decodeFilter.addAction(IpcProxy.ACTION_REFRESH_DEBUG);
-		decodeFilter.addAction(VideoSettingView.ACTION_DEBUG_PRIVEW);
 		mLocalBroadcastManager.registerReceiver(receiver, decodeFilter);
 	}
 	
@@ -1115,8 +1113,6 @@ public class HudExViewController extends ViewController
 		// DebugHandler.logd(TAG, "info:"+info);
 		//*if (debugInfo != null && info != null && info.length() > 0)
 		//*    debugInfo.setText(info);
-	    } else if (action.equals(VideoSettingView.ACTION_DEBUG_PRIVEW)) {
-		//*debugSwitch.setVisibility(View.VISIBLE);
 	    }
 	}
     };
