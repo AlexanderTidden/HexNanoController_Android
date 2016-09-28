@@ -137,9 +137,6 @@ public class HudExViewController extends ViewController
 	private Button settingsBtn;
 	private ToggleButton altHoldToggleBtn;
 	
-	private Button captureBtn;
-	private Button recordBtn;
-	
 	private boolean isAltHoldMode;
 	private boolean isAccMode;
 	
@@ -149,8 +146,7 @@ public class HudExViewController extends ViewController
 	private Indicator deviceBatteryIndicator;
 	private Indicator wifiIndicator;
 	private Indicator bleIndicator;
-	private AnimationIndicator recordingIndicator;
-	
+
 	private Text txtBatteryStatus;
 	
 	private GLSurfaceView glView;
@@ -199,9 +195,6 @@ public class HudExViewController extends ViewController
     final CustomOnRecordCompleteListener mCustomOnRecordCompleteListener = new CustomOnRecordCompleteListener();
     
     private boolean isAcPlugin = false;
-    private SoundPool mSoundPool;
-    private int camera_click_sound;
-    private int video_record_sound;
     private boolean canRefreshUI = false;
     private Image middleBg;
     
@@ -300,23 +293,10 @@ public class HudExViewController extends ViewController
 		Image web_address = new Image(res, R.drawable.web_address, Align.BOTTOM_RIGHT);
 		web_address.setMargin(0, (int)res.getDimension(R.dimen.main_web_address_margin_right), (int)res.getDimension(R.dimen.main_web_address_margin_bottom), 0);
 		
-		Button helpBtn = new Button(res, R.drawable.btn_help_normal, R.drawable.btn_help_hl, Align.TOP_RIGHT);
+		Button helpBtn = new Button(res, R.drawable.btn_help_normal, R.drawable.btn_help_hl, Align.TOP_LEFT);
 		helpBtn.setMargin((int)res.getDimension(R.dimen.hud_btn_settings_margin_top), (int)res.getDimension(R.dimen.hud_btn_settings_margin_right) * 4, 0, 0);
 		
-		captureBtn = new Button(res, R.drawable.btn_capture_normal, R.drawable.btn_capture_press, Align.TOP_LEFT);
-		captureBtn.setMargin((int)res.getDimension(R.dimen.main_btn_capture_margin_top), 0, 0, (int)res.getDimension(R.dimen.main_btn_capture_margin_left));
-		
-		recordBtn = new Button(res, R.drawable.btn_record_video_normal, R.drawable.btn_record_video_press, Align.TOP_LEFT);
-		recordBtn.setMargin((int)res.getDimension(R.dimen.main_btn_record_margin_top), 0, 0, (int)res.getDimension(R.dimen.main_btn_record_margin_left));     
-		
-		int recordingIndicatorRes[] = {R.drawable.btn_record_video_press, 
-				R.drawable.recording_status};
-		recordingIndicator = new AnimationIndicator(res, recordingIndicatorRes, Align.TOP_LEFT);		
-		recordingIndicator.setMargin((int)res.getDimension(R.dimen.main_btn_record_margin_top), 0, 0, (int)res.getDimension(R.dimen.main_btn_record_margin_left));		
-		recordingIndicator.setAlphaEnabled(true);
-		recordingIndicator.setVisible(false);
-		
-		takeOffBtn = new Button(res, R.drawable.btn_unlock_normal, R.drawable.btn_unlock_press, Align.BOTTOM_CENTER);		
+		takeOffBtn = new Button(res, R.drawable.btn_unlock_normal, R.drawable.btn_unlock_press, Align.BOTTOM_CENTER);
 		takeOffBtn.setAlphaEnabled(true);
 		
 		stopBtn = new Button(res, R.drawable.btn_lock_normal, R.drawable.btn_lock_press, Align.TOP_CENTER);
@@ -372,14 +352,12 @@ public class HudExViewController extends ViewController
 		deviceBatteryIndicator = new Indicator(res, deviceBatteryIndicatorRes, Align.TOP_RIGHT);
 		deviceBatteryIndicator.setMargin((int)res.getDimension(R.dimen.main_device_battery_margin_top), (int)res.getDimension(R.dimen.main_device_battery_margin_right), 0, 0);
 	
-		buttons = new Button[7];
+		buttons = new Button[5];
 		buttons[0] = settingsBtn;
 		buttons[1] = takeOffBtn;
 		buttons[2] = stopBtn;
 		buttons[3] = altHoldToggleBtn;
 		buttons[4] = helpBtn;
-		buttons[5] = captureBtn;
-		buttons[6] = recordBtn;
 
 		String debugStr = "000, 000, 000, 0.0";
 		debugTextView = new Text(context, debugStr, Align.TOP_LEFT);
@@ -399,14 +377,10 @@ public class HudExViewController extends ViewController
 		renderer.addSprite(STOP_BTN_ID, stopBtn);
 		renderer.addSprite(SETTINGS_BTN_ID, settingsBtn);
 		renderer.addSprite(ALT_HOLD_TOGGLE_BTN, altHoldToggleBtn);
-		renderer.addSprite(CAPTURE_BTN, captureBtn);
-		renderer.addSprite(RECORD_BTN, recordBtn);
 		renderer.addSprite(WIFI_INDICATOR_ID, wifiIndicator);
-		//renderer.addSprite(DEVICE_BATTERY_INDICATOR, deviceBatteryIndicator);
-		renderer.addSprite(RECORDING_INDICATOR, recordingIndicator);
 		renderer.addSprite(BLE_INDICATOR, bleIndicator);
 		renderer.addSprite(DEBUG_TEXT_VIEW, debugTextView);
-		//renderer.addSprite(HELP_BTN, helpBtn);
+		renderer.addSprite(HELP_BTN, helpBtn);
 		
 		
 		isAccMode = settings.isAccMode();
@@ -462,25 +436,24 @@ public class HudExViewController extends ViewController
 			}).show();
 	    }
 	    
-	    initSound();
 	    initUiControlShow();
 	}
 	
 	private void initUiControlShow() {
 		if (controlService == null) {
 			wifiIndicator.setVisible(false);
-			captureBtn.setEnabled(false);
-			recordBtn.setEnabled(false);
+			//captureBtn.setEnabled(false);
+			//recordBtn.setEnabled(false);
 		} else {
 			int state = controlService.getConnectStateManager().getState();
 		    if (state == ConnectStateManager.CONNECTING || state == ConnectStateManager.DISCONNECTED) {
 		    	wifiIndicator.setVisible(false);
-				captureBtn.setEnabled(false);
-				recordBtn.setEnabled(false);
+				//captureBtn.setEnabled(false);
+				//recordBtn.setEnabled(false);
 		    } else {
 		    	wifiIndicator.setVisible(true);
-				captureBtn.setEnabled(true);
-				recordBtn.setEnabled(true);
+				//captureBtn.setEnabled(true);
+				//recordBtn.setEnabled(true);
 				canRefreshUI = true;
 		    }
 		}
@@ -651,135 +624,8 @@ public class HudExViewController extends ViewController
 				}
 			}
 		});
-	
-		initVideoListener();
 	}
 		
-	private void initVideoListener(){
-		
-		captureBtn.setOnClickListener(new OnClickListener() {
-			@Override
-			public void onClick(View arg0) {
-				AsyncTask<Void, Void, Void> captureTask = new AsyncTask<Void, Void, Void>() {
-
-				    @Override
-				    protected void onPreExecute() {
-					super.onPreExecute();
-					captureBtn.setEnabled(false);
-				    }
-
-				    @Override
-				    protected Void doInBackground(Void... params) {
-						playSound(camera_click_sound);
-						if (!VmcConfig.getInstance().isStoreRemote()) {
-						    String dirPath = Environment
-							    .getExternalStorageDirectory()
-							    .getAbsolutePath()
-							    + MediaUtil.IPC_IMAGE_DIR;
-
-						    String filePath = generateFileName() + ".jpg";
-						    ConnectStateManager
-							    .getInstance(HexMiniApplication.sharedApplicaion())
-							    .getIpcProxy()
-							    .doTakePhoto(dirPath, filePath, false);
-						    MediaUtil.scanIpcMediaFile(HudExViewController.this.context,
-							    dirPath + filePath);
-						} else {
-						    ipcProxy.takePhotoRemote(false);
-						}
-						return null;
-				    }
-
-				    protected void onPostExecute(Void result) {
-				    	captureBtn.setEnabled(true);
-				    }
-				};
-				captureTask.execute();
-
-			}
-		});
-		
-		recordBtn.setOnClickListener(new OnClickListener() {
-			
-			@Override
-			public void onClick(View arg0) {
-				settingsBtn.setEnabled(false);
-				if (!isStartRecord) {
-				    playSound(video_record_sound);
-				    AsyncTask<Void, Void, Void> startRecordTask = new AsyncTask<Void, Void, Void>() {
-
-					@Override
-					protected Void doInBackground(Void... params) {
-					    if (!VmcConfig.getInstance().isStoreRemote()) {
-							String dirPath = Environment
-								.getExternalStorageDirectory()
-								.getAbsolutePath()
-								+ MediaUtil.IPC_VIDEO_DIR;
-							String filePath = generateFileName() + ".mp4";
-							mCustomOnRecordCompleteListener.setPath(dirPath
-								+ filePath);
-							ipcProxy.addOnRecordCompleteListener(mCustomOnRecordCompleteListener);
-							ipcProxy.doStartRecord(dirPath, null, filePath,
-								false);
-					    } else {
-					    	ipcProxy.startRecordRemote(false);
-					    }
-					    ((Activity)HudExViewController.this.context)
-						    .runOnUiThread(new Runnable() {
-
-							@Override
-							public void run() {
-								recordingIndicator.setVisible(true);
-								recordingIndicator.start(0.6f);
-								recordingIndicator.setAlpha(1);
-							}
-						    });
-					    isStartRecord = true;
-					    return null;
-					}
-				    };
-				    startRecordTask.execute();
-				} else {
-					stopRecord();
-				}
-			}
-		});
-	}
-	
-	private void stopRecord(){
-	    playSound(video_record_sound);
-	    AsyncTask<Void, Void, Void> stopRecordTask = new AsyncTask<Void, Void, Void>() {
-
-		@Override
-		protected Void doInBackground(Void... params) {
-		    // TODO Auto-generated method stub
-		    if (!VmcConfig.getInstance().isStoreRemote()) {
-		    	ipcProxy.doStopRecord();
-		    	ipcProxy.onRecordComplete(true);
-		    	ipcProxy.removeOnRecordCompleteListener(mCustomOnRecordCompleteListener);
-		    } else {
-		    	ipcProxy.stopRecordRemote();
-		    }
-		    isStartRecord = false;
-		    return null;
-		}
-
-		protected void onPostExecute(Void result) {
-			recordingIndicator.stop();
-			recordingIndicator.setVisible(false);
-			recordingIndicator.setAlpha(0);
-		    settingsBtn.setEnabled(true);
-		}
-	    };
-	    stopRecordTask.execute();
-		
-	}
-	
-	private String generateFileName() {
-		SimpleDateFormat sDateFormat  = new SimpleDateFormat("yyyyMMdd_hhmmss");     
-	    return sDateFormat.format(new java.util.Date());  
-	}
-	
 	private void initGLSurfaceView() {
 		if (glView != null) {
 			glView.setEGLConfigChooser(8 , 8, 8, 8, 16, 0);
@@ -1367,8 +1213,8 @@ public class HudExViewController extends ViewController
 	@Override
 	public void OnIpcConnected() {
 		wifiIndicator.setVisible(true);
-		captureBtn.setEnabled(true);
-		recordBtn.setEnabled(true);
+		//captureBtn.setEnabled(true);
+		//recordBtn.setEnabled(true);
 		canRefreshUI = true;
 		setCurrentDecodeMode();
 	}
@@ -1376,11 +1222,11 @@ public class HudExViewController extends ViewController
 	@Override
 	public void OnIpcDisConnected() {
 		wifiIndicator.setVisible(false);
-		captureBtn.setEnabled(false);
-		recordBtn.setEnabled(false);
+		//captureBtn.setEnabled(false);
+		//recordBtn.setEnabled(false);
 		
 		if (isStartRecord) {
-			stopRecord();
+			//stopRecord();
 		}
 		
 		if (canRefreshUI) {
@@ -1463,26 +1309,8 @@ public class HudExViewController extends ViewController
 		} else {
 		    ipcProxy.doStopPreview();
 		}
-		
-		
-		if (mSoundPool != null)
-		    mSoundPool.release();
-		//super.onStop();
-		
 	}
 	
-	private void initSound() {
-		if (mSoundPool == null) {
-			mSoundPool = new SoundPool(2, AudioManager.STREAM_SYSTEM, 0);
-		}
-		camera_click_sound = mSoundPool.load(context, R.raw.camera_click, 1);
-		video_record_sound = mSoundPool.load(context, R.raw.video_record, 1);
-	}
-	
-	private void playSound(int soundId) {
-		if (mSoundPool != null) mSoundPool.play(soundId, 1, 1, 0, 0, 1);
-	}
-
 	@Override
 	public void tringToConnect(String target) {
 		ApplicationSettings settings = HexMiniApplication.sharedApplicaion().getAppSettings();
