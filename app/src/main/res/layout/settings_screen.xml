@@ -28,14 +28,6 @@
                 android:layout_marginLeft="5dp"
                 android:background="@drawable/btn_back" />
             
-			<ImageView android:id="@+id/backBtnDivider" 
-			 	android:layout_width="wrap_content"
-                android:layout_height="wrap_content"   
-                android:layout_centerVertical="true"
-                android:layout_toRightOf="@+id/backBtn"
-                android:layout_marginLeft="5dp"  
-                android:src="@drawable/btn_back_divider" />
-			
             <TextView
                 android:id="@+id/titleTextView"
                 android:layout_width="wrap_content"
