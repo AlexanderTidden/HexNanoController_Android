@@ -50,7 +50,6 @@ import com.hexairbot.hexmini.R;
 import com.hexairbot.hexmini.HexMiniApplication.AppStage;
 import com.hexairbot.hexmini.ble.BleConnectinManager;
 import com.hexairbot.hexmini.gestures.EnhancedGestureDetector;
-import com.hexairbot.hexmini.ipc.activity.GalleryActivity;
 import com.hexairbot.hexmini.ipc.view.VideoSettingView;
 import com.hexairbot.hexmini.modal.ApplicationSettings;
 import com.hexairbot.hexmini.modal.Channel;
@@ -138,7 +137,6 @@ public class HudExViewController extends ViewController
 	private Button settingsBtn;
 	private ToggleButton altHoldToggleBtn;
 	
-	private Button galleryBtn;
 	private Button captureBtn;
 	private Button recordBtn;
 	
@@ -305,9 +303,6 @@ public class HudExViewController extends ViewController
 		Button helpBtn = new Button(res, R.drawable.btn_help_normal, R.drawable.btn_help_hl, Align.TOP_RIGHT);
 		helpBtn.setMargin((int)res.getDimension(R.dimen.hud_btn_settings_margin_top), (int)res.getDimension(R.dimen.hud_btn_settings_margin_right) * 4, 0, 0);
 		
-		galleryBtn = new Button(res, R.drawable.btn_gallery_normal, R.drawable.btn_gallery_press, Align.TOP_LEFT); 
-		galleryBtn.setMargin((int)res.getDimension(R.dimen.main_btn_gallery_margin_top), 0, 0, (int)res.getDimension(R.dimen.main_btn_gallery_margin_left));
-		
 		captureBtn = new Button(res, R.drawable.btn_capture_normal, R.drawable.btn_capture_press, Align.TOP_LEFT);
 		captureBtn.setMargin((int)res.getDimension(R.dimen.main_btn_capture_margin_top), 0, 0, (int)res.getDimension(R.dimen.main_btn_capture_margin_left));
 		
@@ -377,7 +372,7 @@ public class HudExViewController extends ViewController
 		deviceBatteryIndicator = new Indicator(res, deviceBatteryIndicatorRes, Align.TOP_RIGHT);
 		deviceBatteryIndicator.setMargin((int)res.getDimension(R.dimen.main_device_battery_margin_top), (int)res.getDimension(R.dimen.main_device_battery_margin_right), 0, 0);
 	
-		buttons = new Button[8];
+		buttons = new Button[7];
 		buttons[0] = settingsBtn;
 		buttons[1] = takeOffBtn;
 		buttons[2] = stopBtn;
@@ -385,8 +380,7 @@ public class HudExViewController extends ViewController
 		buttons[4] = helpBtn;
 		buttons[5] = captureBtn;
 		buttons[6] = recordBtn;
-		buttons[7] = galleryBtn;
-		
+
 		String debugStr = "000, 000, 000, 0.0";
 		debugTextView = new Text(context, debugStr, Align.TOP_LEFT);
 		debugTextView.setMargin((int)res.getDimension(R.dimen.hud_state_text_margin_top) * 2, 0, 0, 0);
@@ -405,7 +399,6 @@ public class HudExViewController extends ViewController
 		renderer.addSprite(STOP_BTN_ID, stopBtn);
 		renderer.addSprite(SETTINGS_BTN_ID, settingsBtn);
 		renderer.addSprite(ALT_HOLD_TOGGLE_BTN, altHoldToggleBtn);
-		renderer.addSprite(GALLERY_BTN, galleryBtn);
 		renderer.addSprite(CAPTURE_BTN, captureBtn);
 		renderer.addSprite(RECORD_BTN, recordBtn);
 		renderer.addSprite(WIFI_INDICATOR_ID, wifiIndicator);
@@ -664,17 +657,6 @@ public class HudExViewController extends ViewController
 		
 	private void initVideoListener(){
 		
-		galleryBtn.setOnClickListener(new OnClickListener() {
-			
-			@Override
-			public void onClick(View v) {
-				Intent intent = new Intent(HudExViewController.this.context, GalleryActivity.class);
-				intent.putExtra("type", MediaUtil.MEDIA_TYPE_ALL);		
-				intent.putExtra("browser_type", GalleryActivity.BROWSER_TYPE_REMOTE);
-				HudExViewController.this.context.startActivity(intent);
-			}
-		});
-		
 		captureBtn.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View arg0) {
@@ -722,7 +704,6 @@ public class HudExViewController extends ViewController
 			@Override
 			public void onClick(View arg0) {
 				settingsBtn.setEnabled(false);
-				galleryBtn.setEnabled(false);
 				if (!isStartRecord) {
 				    playSound(video_record_sound);
 				    AsyncTask<Void, Void, Void> startRecordTask = new AsyncTask<Void, Void, Void>() {
@@ -788,7 +769,6 @@ public class HudExViewController extends ViewController
 			recordingIndicator.setVisible(false);
 			recordingIndicator.setAlpha(0);
 		    settingsBtn.setEnabled(true);
-		    galleryBtn.setEnabled(true);
 		}
 	    };
 	    stopRecordTask.execute();

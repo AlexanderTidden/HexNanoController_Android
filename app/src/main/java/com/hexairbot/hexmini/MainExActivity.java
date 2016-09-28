@@ -36,7 +36,6 @@ import android.widget.TextView;
 import com.hexairbot.hexmini.R;
 
 import com.hexairbot.hexmini.HexMiniApplication.AppStage;
-import com.hexairbot.hexmini.ipc.activity.GalleryActivity;
 import com.hexairbot.hexmini.ipc.activity.IpcAlertDialog;
 import com.hexairbot.hexmini.ipc.activity.IpcAlertDialogHandler;
 import com.hexairbot.hexmini.modal.OSDCommon;
@@ -278,45 +277,9 @@ public class MainExActivity extends FragmentActivity implements
 				startWebHomeActivity();
 			} else if (v == btnSetting) {
 				// startSettingsActivity();
-			} else if (v == btnVideos) {
-				startMediaActivity(MediaUtil.MEDIA_TYPE_VIDEO);
-			} else if (v == btnPictures) {
-				startMediaActivity(MediaUtil.MEDIA_TYPE_IMAGE);
 			}
 		}
 	};
-
-	private void startMediaActivity(int type) {
-		// if(!VmcConfig.getInstance().isStoreRemote()) {
-		if (false) {
-			if (MediaUtil.hasIpcMediaFile(type)) {
-				// if(true) {
-				Intent intent = new Intent(Intent.ACTION_VIEW);
-				if (type == MediaUtil.MEDIA_TYPE_IMAGE) {
-					intent.setType("vnd.android.cursor.dir/image");// ͼƬ�б�
-				} else {
-					intent.setType("vnd.android.cursor.dir/video");// ��Ƶ�б�
-				}
-				intent.putExtra("type", type);
-				intent.setClass(this, GalleryActivity.class);
-				this.startActivity(intent);
-			} else {
-				DebugHandler.logWithToast(this,
-						"You don't have any multimedia files.", 2000);
-			}
-		} else {
-			Intent intent = new Intent(Intent.ACTION_VIEW);
-			if (type == MediaUtil.MEDIA_TYPE_IMAGE) {
-				intent.setType("vnd.android.cursor.dir/image");
-			} else {
-				intent.setType("vnd.android.cursor.dir/video");
-			}
-			intent.putExtra("type", type);
-			intent.putExtra("browser_type", GalleryActivity.BROWSER_TYPE_REMOTE);
-			intent.setClass(this, GalleryActivity.class);
-			this.startActivity(intent);
-		}
-	}
 
 	private void startWebHomeActivity() {
 		// Intent intent = new Intent();
