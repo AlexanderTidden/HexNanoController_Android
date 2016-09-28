@@ -74,10 +74,8 @@ public class SettingsViewController extends ViewController
     private ViewPager viewPager;
     private ImageButton preBtn;
     private ImageButton nextBtn;
-    
+
     private Button backBtn;
-    
-    private Button feedbackBtn;
     
     private Button defaultSettingsBtn;
     private Button accCalibrateBtn;
@@ -159,10 +157,7 @@ public class SettingsViewController extends ViewController
         nextBtn = (ImageButton)container.findViewById(R.id.nextBtn);
         nextBtn.setOnClickListener(this);
         
-        feedbackBtn = (Button)container.findViewById(R.id.feedbackBtn);
-        feedbackBtn.setVisibility(View.GONE);
-        
-        
+
         defaultSettingsBtn = (Button)container.findViewById(R.id.defaultSettingsBtn);
         accCalibrateBtn = (Button)container.findViewById(R.id.accCalibrateBtn);
         magCalibrateBtn = (Button)container.findViewById(R.id.magCalibrateBtn);
@@ -580,19 +575,6 @@ public class SettingsViewController extends ViewController
 				}).setNegativeButton(R.string.dialog_btn_no, null).show();	
 			}
 		});
-    	
-    	feedbackBtn.setOnClickListener(new OnClickListener() {
-
-			@Override
-			public void onClick(View v) {
-				// TODO Auto-generated method stub
-				Intent intent = new Intent();
-				intent.setClass(SettingsViewController.this.getContext(), FeedbackActivity.class);
-				SettingsViewController.this.getContext().startActivity(intent);
-			}
-    		
-    	});
-    	
     	
         isLeftHandedCheckBox.setOnCheckedChangeListener(new OnCheckedChangeListener(
         		) {
