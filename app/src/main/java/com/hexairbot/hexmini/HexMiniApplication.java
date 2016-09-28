@@ -12,9 +12,6 @@ import android.util.Log;
 
 import com.hexairbot.hexmini.modal.ApplicationSettings;
 import com.hexairbot.hexmini.util.FileHelper;
-import com.vmc.ipc.config.ConfigStoreHandler;
-import com.vmc.ipc.config.VmcConfig;
-import com.vmc.ipc.util.MediaUtil;
 import com.hexairbot.hexmini.ui.Text;
 
 
@@ -30,26 +27,15 @@ public class HexMiniApplication extends Application
 	private AppStage appStage = AppStage.UNKNOWN;
 	
 	private boolean isFullDuplex;
-
-
 	public boolean isFullDuplex() {
 		return isFullDuplex;
 	}
-
-
 	public void setFullDuplex(boolean isFullDuplex) {
 		this.isFullDuplex = isFullDuplex;
 	}
 
 
-	static {
-    	System.loadLibrary("vmcipc");
-    }
-	
-    
 	private Text debugTextView;
-	
-	
 	public Text getDebugTextView() {
 		return debugTextView;
 	}
@@ -90,10 +76,6 @@ public class HexMiniApplication extends Application
 		copyDefaultSettingsFileIfNeeded();
 		
 		settings = new ApplicationSettings(getFilesDir() + "/Settings.plist");
-
-		MediaUtil.createIPCDir();
-		VmcConfig.getInstance().setConfigStoreHandler(new ConfigStoreHandler(this));
-		VmcConfig.getInstance().initNativeConfig(MediaUtil.getAppConfigDir());
 	}
 	
 	
@@ -109,12 +91,8 @@ public class HexMiniApplication extends Application
 	{
 		return settings;
 	}
-	
-	public FileHelper getFileHelper(){
-		return fileHelper;
-	}
-	
-	
+
+
     public static HexMiniApplication sharedApplicaion() {  
         return instance;  
     }  

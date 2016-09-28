@@ -10,14 +10,4 @@
         <attr name="buttonBarStyle" format="reference" />
         <attr name="buttonBarButtonStyle" format="reference" />
     </declare-styleable>
-    <declare-styleable name="CustomSeekBar">
-        <attr name="textColor" format="color" />
-        <attr name="textSize" format="dimension" />
-        <attr name="lowerValuePaddingLeft" format="dimension" />
-        <attr name="upperValuePaddingRight" format="dimension" />
-        <attr name="upperBoundText" format="string" />
-        <attr name="lowerBoundText" format="string" />
-        <attr name="textPaddingTop" format="dimension" />
-    </declare-styleable>
-
 </resources>

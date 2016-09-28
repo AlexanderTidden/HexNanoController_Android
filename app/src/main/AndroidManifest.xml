@@ -21,27 +21,12 @@
     <uses-feature
         android:name="android.hardware.multitouch.distinct"
         android:required="false" />
-    <uses-feature
-        android:name="android.hardware.wifi"
-        android:required="true" />
-    
-    <uses-permission android:name="android.permission.MOUNT_UNMOUNT_FILESYSTEMS"></uses-permission>
-    
+
     <uses-permission android:name="android.permission.BLUETOOTH"/>
     <uses-permission android:name="android.permission.BLUETOOTH_ADMIN"/>
     
-    <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.CHANGE_WIFI_MULTICAST_STATE" />
-    
     <uses-permission android:name="android.permission.WAKE_LOCK" />
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.WRITE_INTERNAL_STORAGE" />
-    
-    <uses-permission android:name="android.permission.CHANGE_NETWORK_STATE" ></uses-permission> 
-    <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" ></uses-permission> 
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" ></uses-permission> 
-    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" ></uses-permission>
-    
+
      <supports-screens
         android:smallScreens="true"
         android:normalScreens="true"
@@ -66,11 +51,7 @@
             </intent-filter>
         </activity>
         <service android:name="com.hexairbot.hexmini.ble.BluetoothLeService" android:enabled="true"></service>
-        <service android:name="com.vmc.ipc.service.IpcControlService"></service>
-        <service android:name="com.vmc.ipc.service.ApConnectService"></service>
         <activity android:name="com.hexairbot.hexmini.HelpActivity" android:theme="@android:style/Theme.NoTitleBar.Fullscreen"></activity>
-        <activity android:name="com.hexairbot.hexmini.ipc.activity.GalleryActivity" android:screenOrientation="landscape"></activity>  
-    	<activity android:name="com.hexairbot.hexmini.ipc.activity.ShareMediaActivity" android:screenOrientation="landscape" ></activity>
     </application>
 
 </manifest>
