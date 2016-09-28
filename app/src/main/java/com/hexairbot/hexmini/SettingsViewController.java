@@ -787,21 +787,21 @@ public class SettingsViewController extends ViewController
 				}	
 		
 				TextView bleDeviceNameTextView = (TextView)row.findViewById(R.id.bleDeviceNameTextView);
-				//TextView bleDeviceAddressTextView = (TextView)row.findViewById(R.id.bleDeviceAddressTextView);
-			
+				TextView bleDeviceAddressTextView = (TextView)row.findViewById(R.id.bleDeviceAddressTextView);
+
 				 bleDeviceNameTextView.setTextColor(Color.WHITE);
 				 bleDeviceNameTextView.setBackgroundColor(Color.BLUE);
-				//bleDeviceAddressTextView.setTextColor(Color.BLACK);
+				 bleDeviceAddressTextView.setTextColor(Color.BLACK);
 				if ("Any Flite".equals(mLeDevices.get(position).getName())
 						|| "Flexbot".equals(mLeDevices.get(position).getName())
 						|| "FlexBLE".equals(mLeDevices.get(position).getName())) {
 					bleDeviceNameTextView.setText("Flexbot");
 				}
 				else{
-					bleDeviceNameTextView.setText(R.string.unknown);
+					//bleDeviceNameTextView.setText(R.string.unknown);
+					bleDeviceNameTextView.setText(mLeDevices.get(position).getName());
 				}
-				 
-								//bleDeviceAddressTextView.setText(mLeDevices.get(position).getAddress());
+				bleDeviceAddressTextView.setText(mLeDevices.get(position).getAddress());
 				
 				return row;
 		}
