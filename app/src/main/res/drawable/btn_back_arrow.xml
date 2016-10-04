@@ -2,10 +2,10 @@
 <selector xmlns:android="http://schemas.android.com/apk/res/android" >
     <!-- selected state -->
 	<item android:state_focused="true" android:state_pressed="true"
-		android:drawable="@drawable/back_btn_settings_pressed" />
+		android:drawable="@drawable/btn_back_arrow_pressed" />
 	<item android:state_focused="false" android:state_pressed="true"
-		android:drawable="@drawable/back_btn_settings_pressed" />
+		android:drawable="@drawable/btn_back_arrow_pressed" />
 
 	<!-- normal state -->	
-	<item android:drawable="@drawable/back_btn_settings_normal" />
+	<item android:drawable="@drawable/btn_back_arrow_normal" />
 </selector>

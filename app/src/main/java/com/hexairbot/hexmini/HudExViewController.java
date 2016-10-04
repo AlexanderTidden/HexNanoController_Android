@@ -51,26 +51,18 @@ public class HudExViewController extends ViewController
 			   SettingsViewControllerDelegate, DeviceOrientationChangeDelegate
 {
 	private static final String TAG = "HudExViewController";
-	
-    public final static String ACTION_RESTART_PREVIEW = "action_restart_preview";
-	
+
+	private static final int LOGO                 = 0;
 	private static final int JOY_ID_LEFT          = 1;
 	private static final int JOY_ID_RIGHT         = 2;
 	private static final int MIDLLE_BG_ID         = 3;
-	private static final int TOP_BAR_ID           = 4;
-	private static final int BOTTOM_BAR_ID        = 5;
-	private static final int TAKE_OFF_BTN_ID      = 6;
-	private static final int STOP_BTN_ID          = 7;
-	private static final int SETTINGS_BTN_ID      = 8;
-	private static final int ALT_HOLD_TOGGLE_BTN  = 9;
-	private static final int STATE_TEXT_VIEW      = 10;
-	private static final int BATTERY_INDICATOR_ID = 11;
-	private static final int HELP_BTN             = 12;
-	private static final int BOTTOM_LEFT_SKREW    = 13;
-	private static final int BOTTOM_RIGHT_SKREW   = 14;
-	private static final int LOGO                 = 15;
-	private static final int STATUS_BAR           = 16;
-	
+	private static final int TAKE_OFF_BTN_ID      = 4;
+	private static final int STOP_BTN_ID          = 5;
+	private static final int SETTINGS_BTN_ID      = 6;
+	private static final int ALT_HOLD_TOGGLE_BTN  = 7;
+	private static final int BATTERY_INDICATOR_ID = 8;
+	private static final int HELP_BTN             = 9;
+
 	private static final int BLE_INDICATOR       	   = 23;
 	private static final int WEB_ADDRESS			   = 24;
 	
@@ -96,7 +88,6 @@ public class HudExViewController extends ViewController
 	private Button[] buttons;
 	
 	private Indicator batteryIndicator;
-	private Indicator deviceBatteryIndicator;
 	private Indicator bleIndicator;
 
 	private GLSurfaceView glView;
@@ -178,23 +169,23 @@ public class HudExViewController extends ViewController
 		middleBg.setVisible(true);
 		middleBg.setSizeParams(SizeParams.REPEATED, SizeParams.REPEATED);
 		middleBg.setAlphaEnabled(true);		
-		
+
 		Image logo = new Image(res, R.drawable.logo_new, Align.BOTTOM_LEFT);
 		logo.setMargin(0, 0, (int)res.getDimension(R.dimen.main_logo_margin_bottom), (int)res.getDimension(R.dimen.main_logo_margin_left));
-		
+
 		Image web_address = new Image(res, R.drawable.web_address, Align.BOTTOM_RIGHT);
 		web_address.setMargin(0, (int)res.getDimension(R.dimen.main_web_address_margin_right), (int)res.getDimension(R.dimen.main_web_address_margin_bottom), 0);
-		
-		Button helpBtn = new Button(res, R.drawable.btn_help_normal, R.drawable.btn_help_hl, Align.TOP_LEFT);
-		helpBtn.setMargin((int)res.getDimension(R.dimen.hud_btn_settings_margin_top), (int)res.getDimension(R.dimen.hud_btn_settings_margin_right) * 4, 0, 0);
-		
+
+		Button helpBtn = new Button(res, R.drawable.btn_help_normal, R.drawable.btn_help_hl, Align.BOTTOM_RIGHT);
+		helpBtn.setMargin(0, (int)res.getDimension(R.dimen.help_btn_settings_margin_right), (int)res.getDimension(R.dimen.help_btn_settings_margin_bottom), 0);
+
 		takeOffBtn = new Button(res, R.drawable.btn_unlock_normal, R.drawable.btn_unlock_press, Align.BOTTOM_CENTER);
 		takeOffBtn.setAlphaEnabled(true);
-		
+
 		stopBtn = new Button(res, R.drawable.btn_lock_normal, R.drawable.btn_lock_press, Align.TOP_CENTER);
 		stopBtn.setAlphaEnabled(true);
-			
-		int batteryIndicatorRes[] = {R.drawable.btn_battery_0,
+
+		int batteryIndicatorRes[] = {R.drawable.device_battery_ac,
 				R.drawable.device_battery_0,
 				R.drawable.device_battery_1,
 				R.drawable.device_battery_2,
@@ -204,9 +195,9 @@ public class HudExViewController extends ViewController
 		batteryIndicator = new Indicator(res, batteryIndicatorRes, Align.TOP_RIGHT);
 		batteryIndicator.setMargin((int)res.getDimension(R.dimen.main_device_battery_margin_top), (int)res.getDimension(R.dimen.main_device_battery_margin_right), 0, 0);
 		
-		altHoldToggleBtn = new ToggleButton(res, R.drawable.alt_hold_off, R.drawable.alt_hold_off_hl, 
-                R.drawable.alt_hold_on, R.drawable.alt_hold_on_hl,
-                R.drawable.alt_hold_on, Align.TOP_LEFT);
+		altHoldToggleBtn = new ToggleButton(res, R.drawable.btn_hold_off_normal, R.drawable.btn_hold_off_press,
+                R.drawable.btn_hold_on_normal, R.drawable.btn_hold_on_press,
+                R.drawable.btn_hold_on_normal, Align.TOP_LEFT);
 		
 		altHoldToggleBtn.setMargin(res.getDimensionPixelOffset(R.dimen.hud_alt_hold_toggle_btn_margin_top), 0, 0, res.getDimensionPixelOffset(R.dimen.hud_alt_hold_toggle_btn_margin_left));
 		altHoldToggleBtn.setChecked(settings.isAltHoldMode());
@@ -222,16 +213,6 @@ public class HudExViewController extends ViewController
 		bleIndicator = new Indicator(res, bleIndicatorRes, Align.TOP_RIGHT);
 		bleIndicator.setMargin((int)res.getDimension(R.dimen.main_ble_margin_top), (int)res.getDimension(R.dimen.main_ble_margin_right), 0, 0);
 		bleIndicator.setValue(1);
-	
-		int deviceBatteryIndicatorRes[] = {
-				R.drawable.device_battery_0,
-				R.drawable.device_battery_1,
-				R.drawable.device_battery_2,
-				R.drawable.device_battery_3
-		};
-
-		deviceBatteryIndicator = new Indicator(res, deviceBatteryIndicatorRes, Align.TOP_RIGHT);
-		deviceBatteryIndicator.setMargin((int)res.getDimension(R.dimen.main_device_battery_margin_top), (int)res.getDimension(R.dimen.main_device_battery_margin_right), 0, 0);
 	
 		buttons = new Button[5];
 		buttons[0] = settingsBtn;
