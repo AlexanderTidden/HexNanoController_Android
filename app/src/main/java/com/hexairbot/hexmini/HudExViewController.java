@@ -11,6 +11,7 @@ import android.opengl.GLSurfaceView;
 import android.util.Log;
 import android.view.GestureDetector;
 import android.view.GestureDetector.OnGestureListener;
+import android.view.InputDevice;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -29,20 +30,22 @@ import com.hexairbot.hexmini.sensors.DeviceOrientationManager;
 import com.hexairbot.hexmini.sensors.DeviceSensorManagerWrapper;
 import com.hexairbot.hexmini.ui.Button;
 import com.hexairbot.hexmini.ui.Image;
+import com.hexairbot.hexmini.ui.Image.SizeParams;
 import com.hexairbot.hexmini.ui.Indicator;
 import com.hexairbot.hexmini.ui.Sprite;
+import com.hexairbot.hexmini.ui.Sprite.Align;
 import com.hexairbot.hexmini.ui.Text;
 import com.hexairbot.hexmini.ui.ToggleButton;
 import com.hexairbot.hexmini.ui.UIRenderer;
-import com.hexairbot.hexmini.ui.Image.SizeParams;
-import com.hexairbot.hexmini.ui.Sprite.Align;
 import com.hexairbot.hexmini.ui.joystick.AcceleratorJoystick;
 import com.hexairbot.hexmini.ui.joystick.AnalogueJoystick;
 import com.hexairbot.hexmini.ui.joystick.JoystickBase;
 import com.hexairbot.hexmini.ui.joystick.JoystickFactory;
-import com.hexairbot.hexmini.ui.joystick.JoystickListener;
 import com.hexairbot.hexmini.ui.joystick.JoystickFactory.JoystickType;
+import com.hexairbot.hexmini.ui.joystick.JoystickListener;
 import com.hexairbot.hexmini.util.FontUtils;
+
+import java.util.ArrayList;
 
 
 public class HudExViewController extends ViewController
@@ -126,7 +129,31 @@ public class HudExViewController extends ViewController
     private Image middleBg;
     
     private Text debugTextView;
-    
+	private ArrayList gameControllerList;
+
+	private String debugStr;
+
+	//get list of connected game controllers
+	public ArrayList getGameControllerIds() {
+
+		ArrayList gameControllerDeviceIds = new ArrayList();
+		int[] deviceIds = InputDevice.getDeviceIds();
+		for (int deviceId : deviceIds) {
+			InputDevice dev = InputDevice.getDevice(deviceId);
+			int sources = dev.getSources();
+
+			// Verify that the device has gamepad buttons, control sticks, or both.
+			if (((sources & InputDevice.SOURCE_GAMEPAD) == InputDevice.SOURCE_GAMEPAD)
+					|| ((sources & InputDevice.SOURCE_JOYSTICK)
+					== InputDevice.SOURCE_JOYSTICK)) {
+				// This device is a game controller. Store its device ID.
+				if (!gameControllerDeviceIds.contains(deviceId)) {
+					gameControllerDeviceIds.add(deviceId);
+				}
+			}
+		}
+		return gameControllerDeviceIds;
+	}
     
 	public HudExViewController(Activity context, HudViewControllerDelegate delegate)
 	{
@@ -295,6 +322,29 @@ public class HudExViewController extends ViewController
 				}
 			}).show();
 	    }
+
+		gameControllerList = getGameControllerIds();
+
+		if (gameControllerList.isEmpty()) {
+			new AlertDialog.Builder(context)
+					.setIcon(android.R.drawable.ic_dialog_alert).setTitle(R.string.dialog_title_info)
+					.setMessage("No game controller connected")
+					.setPositiveButton(R.string.dialog_btn_ok, new DialogInterface.OnClickListener() {
+						public void onClick(DialogInterface dialog, int which) {
+
+						}
+					}).show();
+		}
+		else
+		{            new AlertDialog.Builder(context)
+				.setIcon(android.R.drawable.ic_dialog_alert).setTitle(R.string.dialog_title_info)
+				.setMessage("Game controller detected")
+				.setPositiveButton(R.string.dialog_btn_ok, new DialogInterface.OnClickListener() {
+					public void onClick(DialogInterface dialog, int which) {
+
+					}
+				}).show();
+		}
 	}
 	
 	private void initChannels() {
